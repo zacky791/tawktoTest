@@ -1,10 +1,11 @@
-import Vue from 'vue'
-import App from './App.vue'
-import VueRouter from 'vue-router'
-
-Vue.use(VueRouter)
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 new Vue({
 	el: '#app',
-	render: h => h(App)
+	router,
+	render: h => h(App),
 });
