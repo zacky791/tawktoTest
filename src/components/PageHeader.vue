@@ -1,5 +1,5 @@
 <template>
-	<div id="header-wrapper">
+	<header id="header-wrapper">
 		<div id="header-text">
 			<h1>Knowledge base doesn't have to be boring</h1>
 			<h3>Everything you need to manage your Messaging</h3>
@@ -8,7 +8,7 @@
 			<input type="text" placeholder="Search for answers" />
 			<button><img :src="searchIcon" alt="Search" /></button>
 		</div>
-	</div>
+	</header>
 </template>
 
 <script>

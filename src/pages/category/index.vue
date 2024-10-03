@@ -3,14 +3,9 @@
         <Topbar />
         <PageHeader />
         <Helper ref="helper" />
-        <Hook @updateCategoriesSuggestion="updateCategoriesSuggestion"
-            v-slot="{ categoriesData, categoryData, categoriesSuggestion }">
-            <div class="body">
-                <div class="refference">
-                    <p>All categories</p>
-                    <p>></p>
-                    <p>{{ categoriesData.title }}</p>
-                </div>
+        <Hook @updateCategoriesSuggestion="updateCategoriesSuggestion" v-slot="{ categoriesData, categoryData }">
+            <main class="body">
+                <Navigation :categoriesTitle="categoriesData.title" />
                 <section class="main-content">
                     <div class="category">
                         <img :src="getIcon(categoriesData.icon)" />
@@ -18,18 +13,15 @@
                             <img class="file-icon" :src="fileIcon" />
                             <p>{{ categoryData.length }}</p>
                         </div>
-
                         <h2>{{ categoriesData.title }}</h2>
-                        <p>{{ getTimeWeek(categoriesData.updatedOn) }}</p>
+                        <p class="category-time">{{ getTimeWeek(categoriesData.updatedOn) }}</p>
                         <hr class="divider" />
                         <img :src="infoIcon" class="info-icon" />
-                        <p class="description">
-                            {{ categoriesData.description }}
-                        </p>
+                        <p class="category-description">{{ categoriesData.description }}</p>
                     </div>
-                    <div class="categories">
+                    <article class="categories">
                         <ArticleCard v-for=" x  in  categoryData " :key="x.id" :title='x.title' :lastUpdate='x.updatedOn' />
-                    </div>
+                    </article>
                 </section>
                 <hr class="divider-popular-categories" />
                 <div id="background">
@@ -45,7 +37,7 @@
                         <img :src="nextIcon" alt="Next" />
                     </button>
                 </div>
-            </div>
+            </main>
         </Hook>
     </div>
 </template>
@@ -62,9 +54,10 @@ import ArticleCard from '../../components/ArticleCard.vue';
 import { differenceInDays } from 'date-fns';
 import fileIcon from '../../assets/icons/file.svg';
 import nextIcon from '../../assets/icons/next-icon.svg'
+import Navigation from '../../components/Navigation.vue';
 
 export default {
-    components: { Topbar, PageHeader, Hook, Helper, Card, ArticleCard },
+    components: { Topbar, PageHeader, Hook, Helper, Card, ArticleCard, Navigation },
     data: () => {
         return {
             playIcon,
@@ -116,87 +109,6 @@ export default {
 <style lang="scss" scoped>
 @import '../../scss/_variables.scss';
 
-.refference {
-    display: flex;
-    margin-left: 14%;
-    margin-bottom: 0;
-
-    p:nth-child(1) {
-        color: #3ba83b;
-        font-size: 13px;
-    }
-
-    p:nth-child(2) {
-        margin-left: 10px;
-        margin-right: 10px;
-        color: gray;
-        font-size: 13px;
-
-    }
-
-    p:nth-child(3) {
-        color: gray;
-        font-size: 13px;
-
-    }
-}
-
-.leftButton,
-.rightButton,
-.maxIndexReachedLeft,
-.maxIndexReachedRight {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    padding: 10px;
-    cursor: pointer;
-    border: 2px solid white;
-    background-color: transparent;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-
-    &.leftButton,
-    &.maxIndexReachedLeft {
-        left: 40px;
-        transform: rotate(180deg);
-    }
-
-    &.rightButton,
-    &.maxIndexReachedRight {
-        right: 45px;
-    }
-
-    @media (max-width: 1360px) {
-        display: none;
-    }
-}
-
-.rightButton,
-.leftButton,
-.maxIndexReachedRight .maxIndexReachedLeft {
-    &:hover {
-        box-shadow: 0 0 10px 1px rgba(66, 203, 66, 0.7);
-    }
-}
-
-.file {
-    display: flex;
-    text-align: center;
-    align-items: center;
-    position: absolute;
-    right: 20px;
-    top: 20px;
-
-    p {
-        margin-bottom: 20px;
-        margin-left: 5px;
-    }
-
-}
-
-.file-icon {
-    width: 13px;
-}
 
 * {
     box-sizing: border-box;
@@ -205,6 +117,7 @@ export default {
 }
 
 .container {
+    font-family: $font-family;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -212,7 +125,6 @@ export default {
 }
 
 .body {
-    font-family: $font-family;
     background-color: #fafafa;
     width: 100vw;
     padding-top: 20px;
@@ -246,6 +158,7 @@ export default {
     gap: 30px;
 }
 
+// Using flex instead grid to resolve cross browser issue
 #body-wrapper>* {
     /* Each item takes 1/3 of the width minus the gap */
     flex: 1 1 calc(33.333% - 20px);
@@ -304,6 +217,10 @@ export default {
         margin-bottom: 20px;
     }
 
+    .category-time {
+        color: gray;
+    }
+
     .info-icon {
         margin-top: 15px;
         margin-bottom: 10px;
@@ -315,10 +232,10 @@ export default {
 
     h2 {
         font-size: 24px;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
-    .description {
+    .category-description {
         font-size: 14px;
         color: #888;
     }
@@ -356,6 +273,63 @@ h1 {
 h2 {
     text-align: center;
     margin-bottom: 20px;
+}
+
+.leftButton,
+.rightButton,
+.maxIndexReachedLeft,
+.maxIndexReachedRight {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    border: 2px solid white;
+    background-color: transparent;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+    &.leftButton,
+    &.maxIndexReachedLeft {
+        left: 40px;
+        transform: rotate(180deg);
+    }
+
+    &.rightButton,
+    &.maxIndexReachedRight {
+        right: 45px;
+    }
+
+    @media (max-width: 1360px) {
+        display: none;
+    }
+}
+
+.rightButton,
+.leftButton,
+.maxIndexReachedRight .maxIndexReachedLeft {
+    &:hover {
+        box-shadow: 0 0 10px 1px rgba(66, 203, 66, 0.7);
+    }
+}
+
+.file {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+
+    p {
+        margin-bottom: 20px;
+        margin-left: 5px;
+    }
+
+}
+
+.file-icon {
+    width: 13px;
 }
 
 @media (max-width:880px) {

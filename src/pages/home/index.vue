@@ -4,12 +4,12 @@
         <PageHeader />
         <Helper ref="helper" />
         <Hook v-slot="{ categoriesData }">
-            <div id="background">
+            <main id="background">
                 <div id="body-wrapper">
                     <Card v-for="x in categoriesData" :key="x.id" :id="x.id" :title="x.title" :image="getIcon(x.icon)"
                         :totalArticle="x.totalArticle" :lastUpdate="getTimeAgo(x.updatedOn)" />
                 </div>
-            </div>
+            </main>
         </Hook>
     </div>
 </template>
