@@ -8,12 +8,15 @@ export default {
             required: true
         }
     },
-    methods: {
-        getTimeAgo(date) {
+    setup() {
+        const getTimeAgo = (date) => {
             const daysAgo = differenceInDays(new Date(), new Date(date));
             return `${daysAgo} day${daysAgo !== 1 ? 's' : ''} ago`;
-        },
+        };
+
+        return {
+            getTimeAgo
+        };
     }
 }
 </script>
-   

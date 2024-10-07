@@ -12,13 +12,12 @@
 </template>
 
 <script>
+import { format } from 'date-fns';
 import fileIcon from '../assets/icons/file.svg';
 import nextIcon from '../assets/icons/next-icon.svg';
-import { format } from 'date-fns';
 
 export default {
     name: 'ArticleCard',
-    data: () => ({ fileIcon, nextIcon }),
     props: {
         title: {
             type: String,
@@ -29,12 +28,19 @@ export default {
             required: true
         },
     },
-    methods: {
-        formatDate(date) {
+    setup(props) {
+        const formatDate = (date) => {
             return `Updated ${format(new Date(date), 'MMM, dd yyyy')}`;
-        },
+        };
+
+        return {
+            fileIcon,
+            nextIcon,
+            formatDate,
+            ...props
+        };
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -51,26 +57,25 @@ export default {
     align-items: center;
     justify-content: space-between;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
-}
 
-.articles article img:first-child {
-    margin-right: 20px;
-}
+    img:first-child {
+        margin-right: 20px;
+    }
 
-.articles article img:last-child {
-    margin-left: auto;
-}
+    img:last-child {
+        margin-left: auto;
+    }
 
-.articles article h3 {
-    font-size: 15px;
-    margin-bottom: 5px;
-    margin-top: 0;
-}
+    h3 {
+        font-size: 15px;
+        margin-bottom: 5px;
+        margin-top: 0;
+    }
 
-.articles article p {
-    font-size: 12px;
-    color: #666;
-    margin: 0;
-    color: gray;
+    p {
+        font-size: 12px;
+        margin: 0;
+        color: gray;
+    }
 }
 </style>

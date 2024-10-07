@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { toRefs } from 'vue';
+
 export default {
     name: 'Card',
     props: {
@@ -36,13 +38,24 @@ export default {
             required: true,
         }
     },
-    methods: {
-        scrollToTop() {
+    setup(props) {
+        const { id, title, image, totalArticle, lastUpdate } = toRefs(props);
+
+        const scrollToTop = () => {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
-        }
+        };
+
+        return {
+            id,
+            title,
+            image,
+            totalArticle,
+            lastUpdate,
+            scrollToTop
+        };
     }
 }
 </script>

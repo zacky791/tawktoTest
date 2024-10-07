@@ -1,5 +1,5 @@
 <template>
-    <div id="top-bar">
+    <div class="top-bar">
         <router-link to="/">
             <img :src="logoIcon" alt="Logo" />
         </router-link>
@@ -21,7 +21,7 @@ export default {
 <style lang="scss" scoped>
 @import '../scss/_variables.scss';
 
-#top-bar {
+.top-bar {
     font-family: $font-family;
     display: flex;
     align-items: center;

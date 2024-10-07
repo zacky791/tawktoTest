@@ -5,30 +5,33 @@
 </template>
 
 <script>
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 export default {
-    data() {
-        return {
-            categoriesData: [],
-        };
-    },
-    methods: {
-        async fetchCategoriesData() {
+    setup() {
+        const categoriesData = ref([]);
+
+        const fetchCategoriesData = async () => {
             try {
                 const response = await axios.get('http://localhost:9000/api/categories');
                 const enabledDataOnly = response.data.filter(x => x.enabled === true);
                 const sortData = enabledDataOnly.sort((a, b) => a.order - b.order);
-                this.categoriesData = sortData
-                console.log('Fetched category data:', this.categoriesData);
+                categoriesData.value = sortData;
+                console.log('Fetched category data:', categoriesData.value);
             } catch (error) {
                 console.error('Error fetching category data', error);
-                this.categoriesData = [];
+                categoriesData.value = [];
             }
-        },
-    },
-    mounted() {
-        this.fetchCategoriesData();
+        };
+
+        onMounted(() => {
+            fetchCategoriesData();
+        });
+
+        return {
+            categoriesData,
+        };
     },
 };
 </script>

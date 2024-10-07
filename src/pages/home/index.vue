@@ -14,13 +14,13 @@
     </div>
 </template>
   
-
 <script>
+import { ref } from 'vue';
 import Topbar from '../../components/Topbar.vue';
 import PageHeader from '../../components/PageHeader.vue';
 import Card from '../../components/Card.vue';
 import Hook from './hook.vue';
-import Helper from '../../helper/getIcon.vue'
+import Helper from '../../helper/getIcon.vue';
 import { differenceInDays } from 'date-fns';
 
 export default {
@@ -31,14 +31,23 @@ export default {
         Hook,
         Helper,
     },
-    methods: {
-        getIcon(iconName) {
-            return this.$refs.helper.getIcon(iconName);
-        },
-        getTimeAgo(date) {
+    setup() {
+        const helper = ref(null);
+
+        const getIcon = (iconName) => {
+            return helper.value.getIcon(iconName);
+        };
+
+        const getTimeAgo = (date) => {
             const daysAgo = differenceInDays(new Date(), new Date(date));
             return `${daysAgo} day${daysAgo !== 1 ? 's' : ''} ago`;
-        },
+        };
+
+        return {
+            helper,
+            getIcon,
+            getTimeAgo,
+        };
     },
 };
 </script>

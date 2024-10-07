@@ -1,10 +1,10 @@
 <template>
-	<header id="header-wrapper">
-		<div id="header-text">
+	<header class="header-wrapper">
+		<div class="header-text">
 			<h1>Knowledge base doesn't have to be boring</h1>
 			<h3>Everything you need to manage your Messaging</h3>
 		</div>
-		<div id="search-wrapper">
+		<div class="search-wrapper">
 			<input type="text" placeholder="Search for answers" />
 			<button><img :src="searchIcon" alt="Search" /></button>
 		</div>
@@ -23,7 +23,7 @@ export default {
 <style lang="scss" scoped>
 @import '../scss/_variables.scss';
 
-#header-wrapper {
+.header-wrapper {
 	font-family: $font-family;
 	background-color: #ffffff;
 	text-align: center;
@@ -46,7 +46,7 @@ export default {
 	}
 }
 
-#search-wrapper {
+.search-wrapper {
 	display: flex;
 	justify-content: center;
 	margin-bottom: 40px;
